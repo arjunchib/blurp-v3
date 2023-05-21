@@ -1,0 +1,10 @@
+{
+  "name": "blurp-bun-example",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "dev": "bun run --hot main.ts"
+  },
+  "author": "Arjun Chib",
+  "license": "ISC"
+}
