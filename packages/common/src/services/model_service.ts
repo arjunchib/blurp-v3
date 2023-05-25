@@ -2,14 +2,14 @@ import {
   ApplicationCommandOptionType,
   RESTPostAPIApplicationCommandsJSONBody,
 } from "discord-api-types/v10";
-import { RuntimeAdapter } from "./runtime_adapters/runtime_adapter";
+import { RuntimeAdapter } from "../runtime_adapters/runtime_adapter";
 import pascalcase from "pascalcase";
 import { format } from "prettier";
 
-export class ModelGenerator {
+export class ModelService {
   constructor(private runtimeAdapter: RuntimeAdapter) {}
 
-  async generate(schema: RESTPostAPIApplicationCommandsJSONBody[]) {
+  async generateModels(schema: RESTPostAPIApplicationCommandsJSONBody[]) {
     const gen = schema.map((s) => this.createModel(s)).join("\n");
     const file = await this.runtimeAdapter.file?.("blurp.gen.ts").text();
     const formattedGen = format(gen, { parser: "babel" });

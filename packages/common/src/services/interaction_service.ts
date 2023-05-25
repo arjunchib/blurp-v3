@@ -16,9 +16,17 @@ import {
   InteractionResponse,
   MessageComponent,
   Model,
-} from ".";
+} from "..";
+import { NetworkAdapter } from "../network_adapters/network_adapter";
 
-export class InteractionHandler {
+export class InteractionService {
+  constructor(private networkAdapter: NetworkAdapter) {}
+
+  start() {
+    this.networkAdapter.onInteraction(this.onInteraction.bind(this));
+    return this.networkAdapter.start();
+  }
+
   async onInteraction(
     interaction: APIInteraction
   ): Promise<APIInteractionResponse> {

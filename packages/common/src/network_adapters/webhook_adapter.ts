@@ -38,7 +38,7 @@ export class WebhookAdapter extends NetworkAdapter {
     }
 
     const interaction = JSON.parse(body) as APIInteraction;
-    const res = this.interactionHandler.onInteraction(interaction);
+    const res = await this.callback?.(interaction);
     return new Response(JSON.stringify(res), {
       status: 200,
       headers: { "Content-Type": "application/json" },
