@@ -13,9 +13,12 @@ import {
   APIModalSubmitInteraction,
   APIUserApplicationCommandInteraction,
   ButtonStyle,
+  RESTPostAPIApplicationCommandsJSONBody,
 } from "discord-api-types/v10";
 
 import { Button } from "./components/button";
+import { NetworkAdapter } from "./network_adapters/network_adapter";
+import { RuntimeAdapter } from "./runtime_adapters/runtime_adapter";
 
 export interface BaseInteraction {
   defer(options: { update: boolean }): void;
@@ -102,3 +105,11 @@ type Style<T extends APIButtonComponent> = Omit<T, "style"> & {
 type DistributiveOmit<T, K extends keyof any> = T extends any
   ? Omit<T, K>
   : never;
+
+export interface Options {
+  schema: {
+    [name: string]: RESTPostAPIApplicationCommandsJSONBody;
+  };
+  runtimeAdapter: RuntimeAdapter;
+  networkAdapter?: NetworkAdapter;
+}
