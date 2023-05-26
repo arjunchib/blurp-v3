@@ -37,6 +37,7 @@ export class InteractionService {
     } else {
       if (interaction.type !== InteractionType.ApplicationCommand)
         return {} as any;
+      console.log(`Received ${interaction.data.name}`);
       const name = interaction.data.name;
       const mod = await import(
         `${process.cwd()}/controllers/${name}.controller.ts`

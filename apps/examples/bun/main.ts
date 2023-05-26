@@ -1,4 +1,4 @@
-import { serve } from "@blurp/common";
-import { schema } from "./blurp.gen";
+import { BunAdapter, serve } from "@blurp/common";
+import { default as add } from "./schema/add.schema";
 
-await serve({ schema });
+export default serve({ schema: { add }, runtimeAdapter: new BunAdapter() });

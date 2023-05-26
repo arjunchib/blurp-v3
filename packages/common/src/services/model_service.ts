@@ -15,6 +15,9 @@ export class ModelService {
     const formattedGen = format(gen, { parser: "babel" });
     if (file !== formattedGen) {
       await this.runtimeAdapter.write?.("blurp.gen.ts", formattedGen);
+      console.log("Saved models");
+    } else {
+      console.log("Skipped saving models");
     }
   }
 

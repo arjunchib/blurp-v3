@@ -19,6 +19,8 @@ export class SchemaService {
         schemaValues
       );
       console.log("Uploaded application commands");
+    } else {
+      console.log("Skipped uploading application commands");
     }
   }
 }
