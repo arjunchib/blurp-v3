@@ -14,10 +14,14 @@ export class OrchestratorService {
     private interactionService = new InteractionService(networkAdapter),
     private discordRestService = new DiscordRestService(),
     private modelService = new ModelService(runtimeAdapter),
-    private schemaService = new SchemaService(discordRestService)
+    private schemaService = new SchemaService(
+      discordRestService,
+      runtimeAdapter
+    )
   ) {}
 
-  start(schema: Options["schema"]) {
+  async start() {
+    const schema = await this.schemaService.readSchemaFiles();
     this.schemaService.updateDiscord(schema);
     this.modelService.generateModels(Object.values(schema));
     return this.interactionService.start();

@@ -1,15 +1,13 @@
-import {
-  ApplicationCommandOptionType,
-  RESTPostAPIApplicationCommandsJSONBody,
-} from "discord-api-types/v10";
+import { ApplicationCommandOptionType } from "discord-api-types/v10";
 import { RuntimeAdapter } from "../runtime_adapters/runtime_adapter";
 import pascalcase from "pascalcase";
 import { format } from "prettier";
+import { Schema } from "..";
 
 export class ModelService {
   constructor(private runtimeAdapter: RuntimeAdapter) {}
 
-  async generateModels(schema: RESTPostAPIApplicationCommandsJSONBody[]) {
+  async generateModels(schema: Schema[]) {
     const gen = schema.map((s) => this.createModel(s)).join("\n");
     const file = await this.runtimeAdapter.file?.("blurp.gen.ts").text();
     const formattedGen = format(gen, { parser: "babel" });
@@ -21,7 +19,7 @@ export class ModelService {
     }
   }
 
-  private createModel(schema: RESTPostAPIApplicationCommandsJSONBody) {
+  private createModel(schema: Schema) {
     const name = pascalcase(schema.name);
     const options = this.modelOptions(schema);
     return `export interface ${name} {
@@ -29,7 +27,7 @@ export class ModelService {
       }`;
   }
 
-  private modelOptions(schema: RESTPostAPIApplicationCommandsJSONBody) {
+  private modelOptions(schema: Schema) {
     if (!schema.options) {
       return "";
     }

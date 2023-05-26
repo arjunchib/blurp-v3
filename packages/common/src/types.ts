@@ -107,9 +107,8 @@ type DistributiveOmit<T, K extends keyof any> = T extends any
   : never;
 
 export interface Options {
-  schema: {
-    [name: string]: RESTPostAPIApplicationCommandsJSONBody;
-  };
   runtimeAdapter: RuntimeAdapter;
   networkAdapter?: NetworkAdapter;
 }
+
+export type Schema = RESTPostAPIApplicationCommandsJSONBody;

@@ -1,8 +1,8 @@
 import { OrchestratorService } from "./services/orchestrator_service";
 import { Options } from "./types";
 
-export function serve(options: Options) {
-  const { runtimeAdapter, networkAdapter, schema } = options;
+export async function serve(options: Options) {
+  const { runtimeAdapter, networkAdapter } = options;
   const orchestrator = new OrchestratorService(runtimeAdapter, networkAdapter);
-  return orchestrator.start(schema);
+  return await orchestrator.start();
 }

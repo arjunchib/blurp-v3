@@ -1,6 +1,7 @@
 import { Serve } from "bun";
 import { RuntimeAdapter } from "./runtime_adapter";
 import { WebhookAdapter } from "../network_adapters/webhook_adapter";
+import fs from "fs/promises";
 
 export class BunAdapter extends RuntimeAdapter {
   file(path: string): Blob {
@@ -9,6 +10,10 @@ export class BunAdapter extends RuntimeAdapter {
 
   async write(destination: string, input: string): Promise<any> {
     return await Bun.write(destination, input);
+  }
+
+  async readDir(path: string): Promise<string[]> {
+    return await fs.readdir(path);
   }
 
   serve(webhookAdapter: WebhookAdapter) {
