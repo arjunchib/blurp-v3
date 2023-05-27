@@ -1,9 +1,12 @@
 import { Serve } from "bun";
-import { RuntimeAdapter } from "./runtime_adapter";
-import { WebhookAdapter } from "../network_adapters/webhook_adapter";
+import { RuntimeAdapter, Requestable } from "@blurp/runtime";
 import fs from "fs/promises";
 
 export class BunAdapter extends RuntimeAdapter {
+  init(): void {
+    this.env = process.env as any;
+  }
+
   file(path: string): Blob {
     return Bun.file(path);
   }
@@ -16,7 +19,7 @@ export class BunAdapter extends RuntimeAdapter {
     return await fs.readdir(path);
   }
 
-  serve(webhookAdapter: WebhookAdapter) {
+  serve(webhookAdapter: Requestable) {
     return {
       port: 8787,
       fetch: (req: Request) => {

@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType } from "discord-api-types/v10";
-import { RuntimeAdapter } from "../runtime_adapters/runtime_adapter";
+import { RuntimeAdapter } from "@blurp/runtime";
 import pascalcase from "pascalcase";
 import { format } from "prettier";
 import { Schema } from "..";
@@ -9,13 +9,18 @@ export class ModelService {
 
   async generateModels(schema: Schema[]) {
     const gen = schema.map((s) => this.createModel(s)).join("\n");
-    const file = await this.runtimeAdapter.file?.("blurp.gen.ts").text();
     const formattedGen = format(gen, { parser: "babel" });
-    if (file !== formattedGen) {
+    try {
+      const file = await this.runtimeAdapter.file?.("blurp.gen.ts").text();
+      if (file !== formattedGen) {
+        await this.runtimeAdapter.write?.("blurp.gen.ts", formattedGen);
+        console.log("Saved models");
+      } else {
+        console.log("Skipped saving models");
+      }
+    } catch {
       await this.runtimeAdapter.write?.("blurp.gen.ts", formattedGen);
       console.log("Saved models");
-    } else {
-      console.log("Skipped saving models");
     }
   }
 

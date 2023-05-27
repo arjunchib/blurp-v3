@@ -45,6 +45,7 @@ export class WebhookAdapter extends NetworkAdapter {
     });
   }
 
+  /** Verify whether the request is coming from Discord. */
   private async verifySignature(
     request: Request
   ): Promise<{ valid: boolean; body: string }> {
@@ -55,7 +56,7 @@ export class WebhookAdapter extends NetworkAdapter {
     const valid = nacl.sign.detached.verify(
       new TextEncoder().encode(timestamp + body),
       hexToUint8Array(signature),
-      hexToUint8Array(process.env.PUBLIC_KEY!)
+      hexToUint8Array(this.runtimeAdapter.env.PUBLIC_KEY!)
     );
     return { valid, body };
   }

@@ -1,28 +1,10 @@
+import { RuntimeAdapter } from "@blurp/runtime";
 import { DiscordRestService } from "./discord_rest_service";
 import { Schema } from "../types";
 import { isMatch } from "lodash-es";
-import { RuntimeAdapter } from "../runtime_adapters/runtime_adapter";
 
 export class SchemaService {
-  constructor(
-    private discordRestService: DiscordRestService,
-    private runtimeAdapter: RuntimeAdapter
-  ) {}
-
-  async readSchemaFiles(): Promise<Schema[]> {
-    const fileNames = await this.runtimeAdapter.readDir?.("schema");
-    if (!fileNames) {
-      return [];
-    }
-    return await Promise.all<Schema>(
-      fileNames?.map(
-        async (name) =>
-          (
-            await import(`${process.cwd()}/schema/${name}`)
-          ).default
-      )
-    );
-  }
+  constructor(private discordRestService: DiscordRestService) {}
 
   async updateDiscord(schema: Schema[]) {
     const commands =

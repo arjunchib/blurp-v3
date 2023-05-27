@@ -1,8 +1,20 @@
+import { RuntimeAdapter } from "@blurp/runtime";
 import { OrchestratorService } from "./services/orchestrator_service";
-import { Options } from "./types";
+import { NetworkAdapter } from "./network_adapters/network_adapter";
+import { Router } from "./router";
 
-export async function serve(options: Options) {
-  const { runtimeAdapter, networkAdapter } = options;
-  const orchestrator = new OrchestratorService(runtimeAdapter, networkAdapter);
+export interface ServeOptions {
+  router: Router;
+  runtimeAdapter: RuntimeAdapter;
+  networkAdapter?: NetworkAdapter;
+}
+
+export async function serve(options: ServeOptions) {
+  const { runtimeAdapter, networkAdapter, router } = options;
+  const orchestrator = new OrchestratorService(
+    router,
+    runtimeAdapter,
+    networkAdapter
+  );
   return await orchestrator.start();
 }

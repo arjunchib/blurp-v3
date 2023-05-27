@@ -1,7 +1,5 @@
-import {
-  ApplicationCommandOptionType,
-  RESTPostAPIApplicationCommandsJSONBody,
-} from "discord-api-types/v10";
+import { Schema } from "@blurp/common";
+import { ApplicationCommandOptionType } from "discord-api-types/v10";
 
 export const AddSchema = {
   name: "add",
@@ -20,4 +18,4 @@ export const AddSchema = {
       required: true,
     },
   ],
-} satisfies RESTPostAPIApplicationCommandsJSONBody;
+} satisfies Schema;

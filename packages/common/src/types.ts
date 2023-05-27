@@ -95,7 +95,9 @@ export class MentionableSelect {}
 export class ChannelSelect {}
 
 export type Model = {
-  options: Record<string, unknown>;
+  options: {
+    [key: string]: unknown;
+  };
 };
 
 type Style<T extends APIButtonComponent> = Omit<T, "style"> & {
@@ -105,10 +107,5 @@ type Style<T extends APIButtonComponent> = Omit<T, "style"> & {
 type DistributiveOmit<T, K extends keyof any> = T extends any
   ? Omit<T, K>
   : never;
-
-export interface Options {
-  runtimeAdapter: RuntimeAdapter;
-  networkAdapter?: NetworkAdapter;
-}
 
 export type Schema = RESTPostAPIApplicationCommandsJSONBody;

@@ -16,11 +16,12 @@ import {
   InteractionResponse,
   MessageComponent,
   Model,
+  Router,
 } from "..";
 import { NetworkAdapter } from "../network_adapters/network_adapter";
 
 export class InteractionService {
-  constructor(private networkAdapter: NetworkAdapter) {}
+  constructor(private networkAdapter: NetworkAdapter, private router: Router) {}
 
   start() {
     this.networkAdapter.onInteraction(this.onInteraction.bind(this));
@@ -39,10 +40,10 @@ export class InteractionService {
         return {} as any;
       console.log(`Received ${interaction.data.name}`);
       const name = interaction.data.name;
-      const mod = await import(
-        `${process.cwd()}/controllers/${name}.controller.ts`
-      );
-      const controller = new mod.default() as Controller<Model>;
+      const controller = this.router.createController(name);
+      if (!controller) {
+        return this.createResponse({ content: "Error!" });
+      }
       var respondWith: (res: InteractionResponse) => void = () => {};
       const promise = new Promise<InteractionResponse>((resolve, reject) => {
         respondWith = (res) => {
