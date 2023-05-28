@@ -1,0 +1,44 @@
+name = "coinbot"
+main = "src/worker.ts"
+compatibility_date = "2023-05-18"
+
+[build]
+command = "bun run build"
+
+# # KV Namespace binding - For more information: https://developers.cloudflare.com/workers/runtime-apis/kv
+[[kv_namespaces]]
+binding = "WALLET"
+id = "af6b3409808f42dbadc104aa2ae9c3d3"
+preview_id = "4d4610fa8c954497a755b7017858814c" 
+
+# # Durable Object binding - For more information: https://developers.cloudflare.com/workers/runtime-apis/durable-objects
+# [[durable_objects]]
+# binding = "MY_DURABLE_OBJECT"
+# class_name = "MyDurableObject"
+
+# # Bucket binding - For more information: https://developers.cloudflare.com/workers/runtime-apis/kv#bucket
+# [[buckets]]
+# binding = "MY_BUCKET"
+# name = "my-bucket"
+# bucket_id = "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+
+# # Service binding - For more information: https://developers.cloudflare.com/workers/platform/services
+# [[routes]]
+# binding = "MY_SERVICE"
+# pattern = "/api/*"
+# script = "api.js"
+
+# # Queue binding - For more information: https://developers.cloudflare.com/workers/runtime-apis/queues
+# [[queues]]
+# binding = "MY_QUEUE"
+# name = "my-queue"
+# zone_id = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+
+# [env.production]
+# MY_VARIABLE = "production_value"
+
+# [env.staging]
+# MY_VARIABLE = "staging_value"
+
+# [env.shared]
+# SHARED_VARIABLE = "shared_value"

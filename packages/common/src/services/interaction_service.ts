@@ -87,6 +87,12 @@ export class InteractionService {
   }
 
   private createResponse(res: InteractionResponse): APIInteractionResponse {
+    if (typeof res === "string") {
+      return {
+        type: InteractionResponseType.ChannelMessageWithSource,
+        data: { content: res },
+      };
+    }
     if (!res.components) {
       return {
         type: InteractionResponseType.ChannelMessageWithSource,

@@ -1,7 +1,6 @@
-import { RuntimeAdapter } from "@blurp/runtime";
 import { DiscordRestService } from "./discord_rest_service";
 import { Schema } from "../types";
-import { isMatch } from "lodash-es";
+import { isMatch } from "../utils";
 
 export class SchemaService {
   constructor(private discordRestService: DiscordRestService) {}
@@ -9,18 +8,19 @@ export class SchemaService {
   async updateDiscord(schema: Schema[]) {
     const commands =
       await this.discordRestService.getGuildApplicationCommands();
-    const hasMismatch = commands.some((command) => {
-      const currentSchema = schema.find((s) => s.name === command.name);
-      const isMismatch = !currentSchema || !isMatch(command, currentSchema);
-      return isMismatch;
-    });
-    if (hasMismatch) {
+    if (!this.schemasMatch(commands, schema)) {
       await this.discordRestService.bulkOverwriteGuildApplicationCommands(
         schema
       );
       console.log("Uploaded application commands");
-    } else {
-      console.log("Skipped uploading application commands");
     }
+  }
+
+  private schemasMatch(a: Schema[], b: Schema[]): boolean {
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      if (!isMatch(a[i], b[i])) return false;
+    }
+    return true;
   }
 }

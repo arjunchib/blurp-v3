@@ -1,6 +1,8 @@
 import { RuntimeAdapter, Requestable } from "@blurp/runtime";
 
-export class CloudflareAdapter extends RuntimeAdapter {
+export class CloudflareAdapter<
+  Env extends Record<string, any>
+> extends RuntimeAdapter<Env> {
   serve(webhookAdapter: Requestable) {
     return {
       fetch: async (req: Request, env: any) => {

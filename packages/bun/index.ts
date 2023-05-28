@@ -2,7 +2,9 @@ import { Serve } from "bun";
 import { RuntimeAdapter, Requestable } from "@blurp/runtime";
 import fs from "fs/promises";
 
-export class BunAdapter extends RuntimeAdapter {
+export class BunAdapter<
+  Env extends Record<string, any>
+> extends RuntimeAdapter<Env> {
   init(): void {
     this.env = process.env as any;
   }

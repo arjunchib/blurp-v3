@@ -1,4 +1,9 @@
-import { ApplicationCommandOptionType } from "discord-api-types/v10";
+import {
+  ApplicationCommandOptionType,
+  APIInteraction,
+  InteractionType,
+  ApplicationCommandType,
+} from "discord-api-types/v10";
 import { RuntimeAdapter } from "@blurp/runtime";
 import pascalcase from "pascalcase";
 import { format } from "prettier";
@@ -15,8 +20,6 @@ export class ModelService {
       if (file !== formattedGen) {
         await this.runtimeAdapter.write?.("blurp.gen.ts", formattedGen);
         console.log("Saved models");
-      } else {
-        console.log("Skipped saving models");
       }
     } catch {
       await this.runtimeAdapter.write?.("blurp.gen.ts", formattedGen);
@@ -27,8 +30,9 @@ export class ModelService {
   private createModel(schema: Schema) {
     const name = pascalcase(schema.name);
     const options = this.modelOptions(schema);
-    return `export interface ${name} {
-        ${options},
+    return `
+    export interface ${name}Model {
+        ${options}
       }`;
   }
 
@@ -50,11 +54,16 @@ export class ModelService {
   }
 
   private dataTypeFrom(type: ApplicationCommandOptionType) {
+    // const int: APIInteraction = {} as any;
+    // if (int.type === InteractionType.ApplicationCommand && int.data.type === ApplicationCommandType.ChatInput && int.data.options[0].type === ApplicationCommandOptionType.User && int.data.options[0].value) {
+    // }
     switch (type) {
       case ApplicationCommandOptionType.String:
         return "string";
       case ApplicationCommandOptionType.Number:
         return "number";
+      case ApplicationCommandOptionType.User:
+        return "string";
       default:
         return "unknown";
     }

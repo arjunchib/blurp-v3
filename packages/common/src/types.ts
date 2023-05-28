@@ -17,8 +17,6 @@ import {
 } from "discord-api-types/v10";
 
 import { Button } from "./components/button";
-import { NetworkAdapter } from "./network_adapters/network_adapter";
-import { RuntimeAdapter } from "./runtime_adapters/runtime_adapter";
 
 export interface BaseInteraction {
   defer(options: { update: boolean }): void;
@@ -62,7 +60,8 @@ export interface ModalSubmitInteraction extends BaseInteraction {
 
 export type InteractionResponse =
   | MessageInteractionResponse
-  | ModalInteractionResponse;
+  | ModalInteractionResponse
+  | string;
 
 export interface MessageInteractionResponse
   extends Omit<APIInteractionResponseCallbackData, "components"> {
@@ -95,7 +94,7 @@ export class MentionableSelect {}
 export class ChannelSelect {}
 
 export type Model = {
-  options: {
+  options?: {
     [key: string]: unknown;
   };
 };
