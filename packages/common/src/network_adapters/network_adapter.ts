@@ -1,5 +1,5 @@
 import { APIInteraction, APIInteractionResponse } from "discord-api-types/v10";
-import { RuntimeAdapter } from "../runtime_adapters/runtime_adapter";
+import { RuntimeAdapter } from "@blurp/runtime";
 
 export abstract class NetworkAdapter {
   protected callback?: (

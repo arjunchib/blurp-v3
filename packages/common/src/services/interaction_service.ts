@@ -12,10 +12,8 @@ import {
 import {
   ActionRow,
   Button,
-  Controller,
   InteractionResponse,
   MessageComponent,
-  Model,
   Router,
 } from "..";
 import { NetworkAdapter } from "../network_adapters/network_adapter";

@@ -1,9 +1,4 @@
-import {
-  ApplicationCommandOptionType,
-  APIInteraction,
-  InteractionType,
-  ApplicationCommandType,
-} from "discord-api-types/v10";
+import { ApplicationCommandOptionType } from "discord-api-types/v10";
 import { RuntimeAdapter } from "@blurp/runtime";
 import pascalcase from "pascalcase";
 import { format } from "prettier";
@@ -54,9 +49,6 @@ export class ModelService {
   }
 
   private dataTypeFrom(type: ApplicationCommandOptionType) {
-    // const int: APIInteraction = {} as any;
-    // if (int.type === InteractionType.ApplicationCommand && int.data.type === ApplicationCommandType.ChatInput && int.data.options[0].type === ApplicationCommandOptionType.User && int.data.options[0].value) {
-    // }
     switch (type) {
       case ApplicationCommandOptionType.String:
         return "string";

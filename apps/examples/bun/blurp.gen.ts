@@ -1,4 +1,4 @@
-export interface Add {
+export interface AddModel {
   options: {
     /** first operand */
     a: number,

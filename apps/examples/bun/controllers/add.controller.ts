@@ -1,8 +1,8 @@
 import { ChatInputInteraction, Controller } from "@blurp/common";
-import { Add } from "../blurp.gen";
+import { AddModel } from "../blurp.gen";
 
-export class AddController extends Controller<Add> {
-  chatInput(interaction: ChatInputInteraction<Add>) {
+export class AddController extends Controller<AddModel> {
+  chatInput(interaction: ChatInputInteraction<AddModel>) {
     interaction.respondWith({
       content: `${interaction.options.a + interaction.options.b}`,
     });
