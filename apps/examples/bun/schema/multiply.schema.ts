@@ -3,9 +3,9 @@ import {
   RESTPostAPIApplicationCommandsJSONBody,
 } from "discord-api-types/v10";
 
-export const AddSchema = {
-  name: "add",
-  description: "addition operation",
+export const MultiplySchema = {
+  name: "multiply",
+  description: "multiply operation",
   options: [
     {
       name: "a",

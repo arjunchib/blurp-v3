@@ -57,6 +57,7 @@ export class InteractionService {
           followUp: () => {},
         })
       );
+      // wait for respondWith to be called
       return this.createResponse(await promise);
     }
   }
@@ -89,6 +90,12 @@ export class InteractionService {
       return {
         type: InteractionResponseType.ChannelMessageWithSource,
         data: { content: res },
+      };
+    }
+    if (typeof res === "number") {
+      return {
+        type: InteractionResponseType.ChannelMessageWithSource,
+        data: { content: res.toString() },
       };
     }
     if (!res.components) {

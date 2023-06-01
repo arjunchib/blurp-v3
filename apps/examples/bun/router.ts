@@ -1,10 +1,10 @@
 import { Router } from "@blurp/common";
-import { AddSchema } from "./schema/add.schema";
-import { AddController } from "./controllers/add.controller";
+import { MultiplySchema } from "./schema/multiply.schema";
+import { MultiplyController } from "./controllers/multiply.controller";
 
 export default new Router([
   {
-    schema: AddSchema,
-    controller: AddController,
+    schema: MultiplySchema,
+    controller: MultiplyController,
   },
 ]);

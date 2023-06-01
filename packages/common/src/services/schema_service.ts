@@ -9,9 +9,10 @@ export class SchemaService {
     const commands =
       await this.discordRestService.getGuildApplicationCommands();
     if (!this.schemasMatch(commands, schema)) {
-      await this.discordRestService.bulkOverwriteGuildApplicationCommands(
-        schema
-      );
+      const res =
+        await this.discordRestService.bulkOverwriteGuildApplicationCommands(
+          schema
+        );
       console.log("Uploaded application commands");
     }
   }

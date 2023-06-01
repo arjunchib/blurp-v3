@@ -61,7 +61,8 @@ export interface ModalSubmitInteraction extends BaseInteraction {
 export type InteractionResponse =
   | MessageInteractionResponse
   | ModalInteractionResponse
-  | string;
+  | string
+  | number;
 
 export interface MessageInteractionResponse
   extends Omit<APIInteractionResponseCallbackData, "components"> {

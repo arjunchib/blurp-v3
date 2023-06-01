@@ -50,14 +50,13 @@ export class ModelService {
 
   private dataTypeFrom(type: ApplicationCommandOptionType) {
     switch (type) {
-      case ApplicationCommandOptionType.String:
-        return "string";
+      case ApplicationCommandOptionType.Integer:
       case ApplicationCommandOptionType.Number:
         return "number";
-      case ApplicationCommandOptionType.User:
-        return "string";
+      case ApplicationCommandOptionType.Boolean:
+        return "boolean";
       default:
-        return "unknown";
+        return "string";
     }
   }
 }

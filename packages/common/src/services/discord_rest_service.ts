@@ -2,6 +2,7 @@ import {
   RESTGetAPIApplicationCommandsResult,
   RESTPutAPIApplicationCommandsJSONBody,
 } from "discord-api-types/v10";
+import { DiscordRestError } from "../errors/discord_rest_error";
 
 export class DiscordRestService {
   private async fetch<T = any>(request: {
@@ -21,6 +22,9 @@ export class DiscordRestService {
         method: request.method,
       }
     );
+    if (!res.ok) {
+      throw await DiscordRestError.create(res);
+    }
     return await res.json<T>();
   }
 

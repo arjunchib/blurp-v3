@@ -1,4 +1,4 @@
-export interface AddModel {
+export interface MultiplyModel {
   options: {
     /** first operand */
     a: number,
