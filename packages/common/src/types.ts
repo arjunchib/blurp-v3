@@ -19,14 +19,14 @@ import {
 import { Button } from "./components/button";
 
 export interface BaseInteraction {
-  defer(options: { update: boolean }): void;
+  defer(): void;
   respondWith(response: InteractionResponse): void;
-  followUp(response: InteractionResponse): void;
+  followup(response: InteractionResponse): void;
 }
 
 export interface ApplicationCommandInteraction extends BaseInteraction {
   raw: APIApplicationCommandInteraction;
-  defer(options: { update: false }): void;
+  defer(): void;
 }
 
 export interface ChatInputInteraction<M extends Model>

@@ -12,8 +12,12 @@ export class OrchestratorService {
     private router: Router,
     private runtimeAdapter: RuntimeAdapter,
     private networkAdapter: NetworkAdapter = new WebhookAdapter(runtimeAdapter),
-    private interactionService = new InteractionService(networkAdapter, router),
     private discordRestService = new DiscordRestService(),
+    private interactionService = new InteractionService(
+      networkAdapter,
+      router,
+      discordRestService
+    ),
     private modelService = new ModelService(runtimeAdapter),
     private schemaService = new SchemaService(discordRestService)
   ) {

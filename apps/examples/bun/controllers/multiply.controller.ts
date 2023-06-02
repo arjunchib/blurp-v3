@@ -3,6 +3,9 @@ import { MultiplyModel } from "../blurp.gen";
 
 export class MultiplyController extends Controller<MultiplyModel> {
   chatInput(interaction: ChatInputInteraction<MultiplyModel>) {
-    interaction.respondWith(interaction.options.a * interaction.options.b);
+    interaction.defer();
+    setTimeout(() => {
+      interaction.followup(interaction.options.a * interaction.options.b);
+    }, 1000);
   }
 }

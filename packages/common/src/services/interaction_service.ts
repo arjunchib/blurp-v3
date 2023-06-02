@@ -8,6 +8,7 @@ import {
   ComponentType,
   InteractionResponseType,
   InteractionType,
+  RESTPostAPIInteractionFollowupJSONBody,
 } from "discord-api-types/v10";
 import {
   ActionRow,
@@ -17,9 +18,14 @@ import {
   Router,
 } from "..";
 import { NetworkAdapter } from "../network_adapters/network_adapter";
+import { DiscordRestService } from "./discord_rest_service";
 
 export class InteractionService {
-  constructor(private networkAdapter: NetworkAdapter, private router: Router) {}
+  constructor(
+    private networkAdapter: NetworkAdapter,
+    private router: Router,
+    private discordRestService: DiscordRestService
+  ) {}
 
   start() {
     this.networkAdapter.onInteraction(this.onInteraction.bind(this));
@@ -48,17 +54,30 @@ export class InteractionService {
           resolve(res);
         };
       });
+      var defer: () => void = () => {};
+      const promiseDefer = new Promise<null>((resolve, reject) => {
+        defer = () => {
+          resolve(null);
+        };
+      });
+      interaction.token;
       this.waitUntil(
         controller.chatInput?.({
           raw: interaction as any,
           options: this.createOptions(interaction),
           respondWith,
-          defer: () => {},
-          followUp: () => {},
+          defer,
+          followup: (res: InteractionResponse) => {
+            this.discordRestService.createFollowupMessage(
+              interaction.token,
+              this.createFollowup(res)
+            );
+          },
         })
       );
-      // wait for respondWith to be called
-      return this.createResponse(await promise);
+      // wait for respondWith or defer to be called
+      const res = await Promise.any([promise, promiseDefer]);
+      return this.createResponse(res);
     }
   }
 
@@ -85,7 +104,46 @@ export class InteractionService {
     return options;
   }
 
-  private createResponse(res: InteractionResponse): APIInteractionResponse {
+  private createFollowup(
+    res: InteractionResponse
+  ): RESTPostAPIInteractionFollowupJSONBody {
+    if (typeof res === "string") {
+      return {
+        content: res,
+      };
+    }
+    if (typeof res === "number") {
+      return {
+        content: res.toString(),
+      };
+    }
+    if (!res.components) {
+      return res as any;
+    }
+    let rawComponents: MessageComponent[][];
+    if (!(res.components instanceof Array)) {
+      rawComponents = [[res.components]];
+    } else if (!(res.components[0] instanceof Array)) {
+      rawComponents = [res.components];
+    } else {
+      rawComponents = res.components as any;
+    }
+    const components = rawComponents.map((row) => {
+      const rowComponents = row.map((c) => (c as Button).raw);
+      return {
+        type: ComponentType.ActionRow,
+        components: rowComponents,
+      } satisfies ActionRow;
+    }) as any;
+    return { ...res, components };
+  }
+
+  private createResponse(
+    res: InteractionResponse | null
+  ): APIInteractionResponse {
+    if (res === null) {
+      return { type: InteractionResponseType.DeferredChannelMessageWithSource };
+    }
     if (typeof res === "string") {
       return {
         type: InteractionResponseType.ChannelMessageWithSource,
