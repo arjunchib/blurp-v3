@@ -16,7 +16,8 @@ import {
   RESTPostAPIApplicationCommandsJSONBody,
 } from "discord-api-types/v10";
 
-import { Button } from "./components/button";
+import { Button } from "./components/button/button";
+import { StringSelect } from "./components/select/string_select";
 
 export interface BaseInteraction {
   defer(): void;
@@ -87,7 +88,6 @@ export type MessageComponent =
 export type ModalComponent = TextInput;
 
 export class ActionRow {}
-export class StringSelect {}
 export class TextInput {}
 export class UserSelect {}
 export class RoleSelect {}
