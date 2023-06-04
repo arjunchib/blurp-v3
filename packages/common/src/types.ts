@@ -20,6 +20,7 @@ import { Button } from "./components/button/button";
 import { StringSelect } from "./components/select/string_select";
 import { ChannelSelect } from "./components/select/channel_select";
 import { MentionableSelect, RoleSelect, UserSelect } from ".";
+import { TextInput } from "./components/text_input";
 
 export { ChannelType } from "discord-api-types/v10";
 
@@ -92,7 +93,6 @@ export type MessageComponent =
 export type ModalComponent = TextInput;
 
 export class ActionRow {}
-export class TextInput {}
 
 export type Model = {
   options?: {

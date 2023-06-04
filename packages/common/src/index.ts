@@ -12,3 +12,4 @@ export { ChannelSelect } from "./components/select/channel_select";
 export { RoleSelect } from "./components/select/role_select";
 export { UserSelect } from "./components/select/user_select";
 export { MentionableSelect } from "./components/select/mentionable_select";
+export { TextInput } from "./components/text_input";
