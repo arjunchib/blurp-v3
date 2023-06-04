@@ -18,6 +18,10 @@ import {
 
 import { Button } from "./components/button/button";
 import { StringSelect } from "./components/select/string_select";
+import { ChannelSelect } from "./components/select/channel_select";
+import { MentionableSelect, RoleSelect, UserSelect } from ".";
+
+export { ChannelType } from "discord-api-types/v10";
 
 export interface BaseInteraction {
   defer(): void;
@@ -89,10 +93,6 @@ export type ModalComponent = TextInput;
 
 export class ActionRow {}
 export class TextInput {}
-export class UserSelect {}
-export class RoleSelect {}
-export class MentionableSelect {}
-export class ChannelSelect {}
 
 export type Model = {
   options?: {
